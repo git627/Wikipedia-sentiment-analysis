@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Oct  1 01:35:29 2025
-
-@author: marsh
-"""
 
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch

@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Oct  1 01:36:44 2025
-
-@author: marsh
-"""
 
 import wikipediaapi
 import numpy as np

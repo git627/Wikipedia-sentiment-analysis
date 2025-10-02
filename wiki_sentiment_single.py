@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Oct  1 11:16:49 2025
-
-@author: marsh
-"""
 
 from sentiment_models import *
 from sentiment_helpers import get_wikipedia_paragraphs_with_api,split_by_closest_period,id_to_sentiment,Method1,Method2,Method3,Method4
