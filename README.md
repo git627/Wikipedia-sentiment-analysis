@@ -41,10 +41,15 @@ There are currently four scripts used for this project:
 
 Additionally, two Jupyter notebooks (wiki_single_example.ipynb and wiki_multi_example.ipynb) are provided as examples for anyone who would like to see how the scripts are used.
 
+## Limitations
+1. Though LLMs are improving at understanding context, for the sake of this project they may struggle to identify the subject of the sentiment. In the context of Wikipedia articles, this means that sentiments identified within an article may not necessarily be directed *towards* the subject of the article. For example, negative sentiment identified in the article of a political figure could possibly be generated from quotes by that figure directed against his or her political opponents. There is a field of sentiment analysis known as aspect-based sentiment analysis (ABSA)[^7] that seeks to address this shortcoming, but it's beyond the scope of this project.
+2. Within the code, one of the helper functions exists to break down paragraphs that are too long to be used as inputs to the models. Currently, this works by dividing the problematic paragraph by the period closest to the center, creating two new segments. I have not encountered any problems so far, but it's theoretically possible that an absurdly long paragraph could still be too long even after being divided and thus cause an error to occur.
+
 [^1]:Stróżyna, Milena, et al. "Sentiment Analysis of Wikipedia Articles About Companies: A Comparison of Different Models." International Conference on Business Information Systems. Cham: Springer Nature Switzerland, 2025.
 [^2]:Devlin, Jacob; Chang, Ming-Wei; Lee, Kenton; Toutanova, Kristina (October 11, 2018). "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding".
 [^3]:Liu, Yinhan; Ott, Myle; Goyal, Naman; Du, Jingfei; Joshi, Mandar; Chen, Danqi; Levy, Omer; Lewis, Mike; Zettlemoyer, Luke; Stoyanov, Veselin (2019). "RoBERTa: A Robustly Optimized BERT Pretraining Approach".
 [^4]:Sanh, Victor; Debut, Lysandre; Chaumond, Julien; Wolf, Thomas (February 29, 2020), "DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter".
 [^5]:Pérez, Juan Manuel, et al. "RoBERTuito: a pre-trained language model for social media text in Spanish." arXiv preprint arXiv:2111.09453 (2021).
 [^6]:Pérez, Juan Manuel, et al. "pysentimiento: A python toolkit for opinion mining and social nlp tasks." arXiv preprint arXiv:2106.09462 (2021).
+[^7]:Hua, Yan Cathy, et al. "A systematic review of aspect-based sentiment analysis: domains, methods, and trends." Artificial Intelligence Review 57.11 (2024): 296.
 
