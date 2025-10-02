@@ -23,7 +23,7 @@ The classification of the sentiment can be binary (i.e., positive or negative) o
 The code works by scraping Wikipedia articles via an API and dividing the articles into paragraphs. Paragraphs are ideal subdivisions for this purpose because they are generally small enough to fall within the input length limit (512 tokens) while also being large enough to provide important context. The paragraphs are fed into the BERT models and classified according to sentiment. Sentiment analysis at the article level can be performed by aggregating the sentiments of the constituent paragraphs. For this project, three aggregrating methods are used:
 
 1. Most common: the sentiment of the article is selected as the most-represented sentiment among all the paragraphs. Additionally, a percent breakdown of paragraphs by sentiment is provided.
-2. Greatest sum of weighted votes: similar to the most common method, but the votes are multiplied by the lengths of their corresponding paragraphs
+2. Greatest sum of weighted votes: similar to the most common method, but the votes are multiplied by the lengths of their corresponding paragraphs.
 3. Highest weighted probability: the prediction level probabilities are aggregated across all paragraphs according to:
 <p align="center">
 <img width="346" height="49" alt="image" src="https://github.com/user-attachments/assets/b7f2472c-828b-4730-9396-648c1f696b8b" />
