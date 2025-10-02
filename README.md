@@ -2,10 +2,10 @@
 Code for LLM-based sentiment analysis of Wikipedia articles
 
 ## Purpose
-Wikipedia is the Internet's most commonly visited encyclopedia and is frequently used as an authoritative reference for a variety of subjects. One of Wikipedia's governing policies is neutral point of view (NPOV), which prohibits showing partiality or bias on the part of editors. For most articles on Wikipedia this is not a concern, but for articles regarding contentious topics or persons there is a greater chance that NPOV is violated. Using state-of-the-art large language models (LLMs) tailored for sentiment analysis can help to identify sentiments represented within Wikipedia articles, potentially identifying where NPOV may be at risk. There is some early research into this topic (please see Sentiment Analysis of Wikipedia Articles About Companies: A Comparison of Different Models by Stróżyna et al. 2025). Nevertheless, the work in this area is still very new.
+Wikipedia is the Internet's most commonly visited encyclopedia and is frequently used as an authoritative reference for a variety of subjects. One of Wikipedia's governing policies is neutral point of view (NPOV), which prohibits showing partiality or bias on the part of editors. For most articles on Wikipedia this is not a concern, but for articles regarding contentious topics or persons there is a greater chance that NPOV is violated. Using state-of-the-art large language models (LLMs) tailored for sentiment analysis can help to identify sentiments represented within Wikipedia articles, potentially identifying where NPOV may be at risk. There is some early research into this topic[^1]. Nevertheless, the work in this area is still very new.
 
 ## How it works
-The LLMs used for this project belong to the Bidirectional encoder representations from transformers (BERT) family. These models tokenize input strings, and then embeddings are generated from the tokens via a transformer encoder:
+The LLMs used for this project belong to the Bidirectional encoder representations from transformers (BERT)[^2] family. These models tokenize input strings, and then embeddings are generated from the tokens via a transformer encoder:
 
 <p align="center">
 <img width="809" height="383" alt="image" src="https://github.com/user-attachments/assets/9db027a3-7604-4ebe-85cb-9921c3bd2f23" />
@@ -36,7 +36,15 @@ There are currently four scripts used for this project:
 
 1. wiki_sentiment_single.py: this script allows users to generate sentiment predictions for a single Wikipedia article. The user provides a URL as input.
 2. wiki_sentiment_multi.py: this script allows users to generate sentiment predictions for multiple Wikipedia articles. The user provides either a list of URLs or a UTF-8 encoded .csv file as input.
-3. sentiment_models.py: this script contains classes representing the various BERT models used for this work. Users are free to augment it as they see fit.
+3. sentiment_models.py: this script contains classes representing the various BERT models used for this work. Users are free to augment it as they see fit. Currently, there is one basic BERT model, one RoBERTa[^3] model, one DistilBERT[^4] model, and the RoBERTuito[^5] model found in the pysentimiento[^6] package.
 4. sentiment_helpers.py: this script contains various helper functions used by the other scripts.
 
 Additionally, two Jupyter notebooks (wiki_single_example.ipynb and wiki_multi_example.ipynb) are provided as examples for anyone who would like to see how the scripts are used.
+
+[^1]:Stróżyna, Milena, et al. "Sentiment Analysis of Wikipedia Articles About Companies: A Comparison of Different Models." International Conference on Business Information Systems. Cham: Springer Nature Switzerland, 2025.
+[^2]:Devlin, Jacob; Chang, Ming-Wei; Lee, Kenton; Toutanova, Kristina (October 11, 2018). "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding".
+[^3]:Liu, Yinhan; Ott, Myle; Goyal, Naman; Du, Jingfei; Joshi, Mandar; Chen, Danqi; Levy, Omer; Lewis, Mike; Zettlemoyer, Luke; Stoyanov, Veselin (2019). "RoBERTa: A Robustly Optimized BERT Pretraining Approach".
+[^4]:Sanh, Victor; Debut, Lysandre; Chaumond, Julien; Wolf, Thomas (February 29, 2020), "DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter".
+[^5]:Pérez, Juan Manuel, et al. "RoBERTuito: a pre-trained language model for social media text in Spanish." arXiv preprint arXiv:2111.09453 (2021).
+[^6]:Pérez, Juan Manuel, et al. "pysentimiento: A python toolkit for opinion mining and social nlp tasks." arXiv preprint arXiv:2106.09462 (2021).
+
