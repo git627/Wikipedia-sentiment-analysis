@@ -36,7 +36,7 @@ def analyze(url,models,filename,output_path=None,show_progress=True):
     
     while i < len(paragraphs_filtered):
         
-        #Split paragraph in half if it exceeds the token length limit
+        #Split paragraph in half if it exceeds the character length limit
         if len(paragraphs_filtered[i])>char_limit:
             par_half1,par_half2=split_by_closest_period(paragraphs_filtered[i])
             paragraphs_filtered=paragraphs_filtered[0:i]+[par_half1,par_half2]+paragraphs_filtered[i+1:len(paragraphs_filtered)]
@@ -75,7 +75,7 @@ def analyze(url,models,filename,output_path=None,show_progress=True):
         m3_dict[k]=Method3(probs_dict[k],para_lengths)
         m4_dict[k]=Method4(argmax_dict[k])
         header_lst=header_lst+['Most common sentiment, {}'.format(model_objs[k].model_name()),
-                          'Highest weighted votes, {}'.format(model_objs[k].model_name()),
+                          'Sentiment with highest weighted vote, {}'.format(model_objs[k].model_name()),
                           'Sentiment with highest weighted probability, {}'.format(model_objs[k].model_name()),
                           'Weighted probability of negative sentiment, {}'.format(model_objs[k].model_name()),
                           'Weighted probability of neutral sentiment, {}'.format(model_objs[k].model_name()),
