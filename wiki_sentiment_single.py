@@ -4,11 +4,12 @@ from sentiment_models import *
 from sentiment_helpers import get_wikipedia_paragraphs_with_api,split_by_closest_period,id_to_sentiment,Method1,Method2,Method3,Method4
 import numpy as np
 import pandas as pd
+import os
 
-def analyze(url,models,filename,show_progress=True):
+def analyze(url,models,filename,output_path=None,show_progress=True):
     char_limit=2000 #character limit, used to avoid running up against model token limits
     min_para_len=50 #minimum string length for paragraphs. Used to filter out headings
-    
+        
     if type(models)==str:
         models=[models]
     
@@ -91,5 +92,9 @@ def analyze(url,models,filename,show_progress=True):
                              100*m4_dict[k][1][0,0],100*m4_dict[k][1][0,1],100*m4_dict[k][1][0,2]]
         
     df_out=pd.DataFrame([preds_lst],columns=header_lst)
+    
+    if output_path!=None:
+        os.chdir(output_path)
+    
     df_out.to_csv(filename,index=False)
     
