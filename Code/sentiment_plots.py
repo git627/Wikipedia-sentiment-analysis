@@ -82,6 +82,9 @@ def plot_individual(models,input_filename,input_path=None,output_filename=
     
     models=list(map(lambda x: model_name(x), models))
     
+    if input_path!=None:
+        os.chdir(input_path)
+    
     df=pd.read_csv(input_filename)
     
     fig, axs = plt.subplots(1,len(models),figsize=(6*len(models), 5))
@@ -96,9 +99,6 @@ def plot_individual(models,input_filename,input_path=None,output_filename=
     
     for i, col_label in enumerate(models):
         axs[i].set_title(col_label, fontsize=14)
-    
-    if input_path!=None:
-        os.chdir(input_path)
     
     labels=df[labels_col]
     
