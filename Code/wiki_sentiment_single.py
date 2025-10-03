@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from sentiment_models import *
-from sentiment_helpers import get_wikipedia_paragraphs_with_api,split_by_closest_period,id_to_sentiment,Method1,Method2,Method3,Method4
+from sentiment_helpers import get_wikipedia_paragraphs_with_api,split_by_closest_period,id_to_sentiment,Method1,Method2,Method3,Method4,model_name
 import numpy as np
 import pandas as pd
 import os
 
-def analyze(url,models,filename,output_path=None,show_progress=True):
+def analyze_url(url,models,output_filename='analysis.csv',output_path=None,show_progress=True):
     char_limit=2000 #character limit, used to avoid running up against model token limits
     min_para_len=50 #minimum string length for paragraphs. Used to filter out headings
         
@@ -38,12 +38,13 @@ def analyze(url,models,filename,output_path=None,show_progress=True):
         
         #Split paragraph in half if it exceeds the character length limit
         if len(paragraphs_filtered[i])>char_limit:
-            par_half1,par_half2=split_by_closest_period(paragraphs_filtered[i])
-            paragraphs_filtered=paragraphs_filtered[0:i]+[par_half1,par_half2]+paragraphs_filtered[i+1:len(paragraphs_filtered)]
-            para_lengths=para_lengths[0:i]+[len(par_half1),len(par_half2)]+para_lengths[i+1:len(para_lengths)]
-            
-            for k in range(len(models)):
-                argmax_dict[k]=np.append(argmax_dict[k],np.zeros((1,3)),axis=0)
+            while len(paragraphs_filtered[i])>char_limit:
+                par_half1,par_half2=split_by_closest_period(paragraphs_filtered[i])
+                paragraphs_filtered=paragraphs_filtered[0:i]+[par_half1,par_half2]+paragraphs_filtered[i+1:len(paragraphs_filtered)]
+                para_lengths=para_lengths[0:i]+[len(par_half1),len(par_half2)]+para_lengths[i+1:len(para_lengths)]
+                
+                for k in range(len(models)):
+                    argmax_dict[k]=np.append(argmax_dict[k],np.zeros((1,3)),axis=0)
         
         for k in range(len(models)):
             probs=model_objs[k].predict(paragraphs_filtered[i])              
@@ -74,18 +75,18 @@ def analyze(url,models,filename,output_path=None,show_progress=True):
         m2_dict[k]=Method2(argmax_dict[k],para_lengths)
         m3_dict[k]=Method3(probs_dict[k],para_lengths)
         m4_dict[k]=Method4(argmax_dict[k])
-        header_lst=header_lst+['Most common sentiment, {}'.format(model_objs[k].model_name()),
-                          'Sentiment with highest weighted vote, {}'.format(model_objs[k].model_name()),
-                          'Sentiment with highest weighted probability, {}'.format(model_objs[k].model_name()),
-                          'Weighted probability of negative sentiment, {}'.format(model_objs[k].model_name()),
-                          'Weighted probability of neutral sentiment, {}'.format(model_objs[k].model_name()),
-                          'Weighted probability of positive sentiment, {}'.format(model_objs[k].model_name()),
-                          'Number of paragraphs with negative sentiment, {}'.format(model_objs[k].model_name()),
-                          'Number of paragraphs with neutral sentiment, {}'.format(model_objs[k].model_name()),
-                          'Number of paragraphs with positive sentiment, {}'.format(model_objs[k].model_name()),
-                          'Percent of paragraphs with negative sentiment, {}'.format(model_objs[k].model_name()),
-                          'Percent of paragraphs with neutral sentiment, {}'.format(model_objs[k].model_name()),
-                          'Percent of paragraphs with positive sentiment, {}'.format(model_objs[k].model_name())]
+        header_lst=header_lst+['Most common sentiment, {}'.format(model_name(models[k])),
+                          'Sentiment with highest weighted vote, {}'.format(model_name(models[k])),
+                          'Sentiment with highest weighted probability, {}'.format(model_name(models[k])),
+                          'Weighted probability of negative sentiment, {}'.format(model_name(models[k])),
+                          'Weighted probability of neutral sentiment, {}'.format(model_name(models[k])),
+                          'Weighted probability of positive sentiment, {}'.format(model_name(models[k])),
+                          'Number of paragraphs with negative sentiment, {}'.format(model_name(models[k])),
+                          'Number of paragraphs with neutral sentiment, {}'.format(model_name(models[k])),
+                          'Number of paragraphs with positive sentiment, {}'.format(model_name(models[k])),
+                          'Percent of paragraphs with negative sentiment, {}'.format(model_name(models[k])),
+                          'Percent of paragraphs with neutral sentiment, {}'.format(model_name(models[k])),
+                          'Percent of paragraphs with positive sentiment, {}'.format(model_name(models[k]))]
         preds_lst=preds_lst+[m1_dict[k],m2_dict[k],m3_dict[k][0],
                              m3_dict[k][1][0,0],m3_dict[k][1][0,1],m3_dict[k][1][0,2],
                              m4_dict[k][0][0,0],m4_dict[k][0][0,1],m4_dict[k][0][0,2],
@@ -96,5 +97,4 @@ def analyze(url,models,filename,output_path=None,show_progress=True):
     if output_path!=None:
         os.chdir(output_path)
     
-    df_out.to_csv(filename,index=False)
-    
+    df_out.to_csv(output_filename,index=False)

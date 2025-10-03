@@ -89,3 +89,11 @@ def Method4(argmax_array):
     totals=np.sum(argmax_array,axis=0)
     pred=(totals/np.sum(totals)).reshape(1,-1)
     return totals.reshape(1,-1),pred
+
+def model_name(name):
+    mapping_dict={
+        'bert':'BERT',
+        'roberta':'RoBERTa',
+        'distilbert':'DistilBERT',
+        'robertuito':'RoBERTuito'}
+    return mapping_dict[name]

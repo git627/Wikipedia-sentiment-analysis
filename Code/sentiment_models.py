@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 import numpy as np
@@ -20,9 +22,6 @@ class bert():
     def predict(self,input_str):
         probabilities=predict_sentiment(input_str,self.tokenizer,self.model)
         return probabilities
-    
-    def model_name(self):
-        return 'BERT'
 
 class roberta():
     def __init__(self):
@@ -32,9 +31,6 @@ class roberta():
     def predict(self,input_str):
         probabilities=predict_sentiment(input_str,self.tokenizer,self.model)
         return probabilities
-    
-    def model_name(self):
-        return 'RoBERTa'
 
 class distilbert():
     def __init__(self):
@@ -44,9 +40,6 @@ class distilbert():
     def predict(self,input_str):
         probabilities=predict_sentiment(input_str,self.tokenizer,self.model)
         return np.flip(probabilities) #Flip to keep convention of 0=negative,1=neutral,2=positive
-    
-    def model_name(self):
-        return 'DistilBERT'
 
 class robertuito():
     def __init__(self):
@@ -57,6 +50,3 @@ class robertuito():
         probabilities=np.array([result.probas['NEG'],result.probas['NEU'],
                                 result.probas['POS']])
         return probabilities
-    
-    def model_name(self):
-        return 'RoBERTuito'
