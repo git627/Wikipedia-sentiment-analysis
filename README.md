@@ -32,18 +32,18 @@ The code works by scraping Wikipedia articles via an API and dividing the articl
 Where <img width="28" height="23" alt="image" src="https://github.com/user-attachments/assets/b0f2e562-f184-45d1-87fe-dc8c64e2efee" /> is the aggregated probability of the jth sentiment class, <img width="14" height="17" alt="image" src="https://github.com/user-attachments/assets/f928cbfd-150e-4351-9940-41539e99ad4e" /> is the length of the ith text segment in characters, <img width="28" height="16" alt="image" src="https://github.com/user-attachments/assets/8c37f7fc-a872-4cff-8fa5-a35b381d2c3d" /> is the probability of the ith text segment belonging to the jth sentiment class, and <img width="13" height="15" alt="image" src="https://github.com/user-attachments/assets/a1e4b1e1-e6d5-4917-8717-dbe8a7114cdc" /> is the total number of text segments within the article.
 
 ## Files
-There are currently four scripts used for this project:
+There are currently five scripts used for this project:
 
 1. wiki_sentiment_single.py: this script allows users to generate sentiment predictions for a single Wikipedia article. The user provides a URL as input.
 2. wiki_sentiment_multi.py: this script allows users to generate sentiment predictions for multiple Wikipedia articles. The user provides either a list of URLs or a UTF-8 encoded .csv file as input.
 3. sentiment_models.py: this script contains classes representing the various BERT models used for this work. Users are free to augment it as they see fit. Currently, there is one basic BERT model, one RoBERTa[^3] model, one DistilBERT[^4] model, and the RoBERTuito[^5] model found in the pysentimiento[^6] package.
 4. sentiment_helpers.py: this script contains various helper functions used by the other scripts.
+5. sentiment_plots.py: this script contains functions for plotting sentiment analysis results.
 
-Additionally, two Jupyter notebooks (wiki_single_example.ipynb and wiki_multi_example.ipynb) are provided as examples for anyone who would like to see how the scripts are used.
+Additionally, three Jupyter notebooks (wiki_single_example.ipynb, wiki_multi_example.ipynb, and plotting_example.ipynb) are provided as examples for anyone who would like to see how the scripts are used.
 
 ## Limitations
-1. Though LLMs are improving at understanding context, for the sake of this project they may struggle to identify the subject of the sentiment. In the context of Wikipedia articles, this means that sentiments identified within an article may not necessarily be directed *toward* the subject of the article. For example, negative sentiment identified in the article of a political figure could possibly be generated from quotes by that figure directed against his or her political opponents. There is a field of sentiment analysis known as aspect-based sentiment analysis (ABSA)[^7] that seeks to address this shortcoming, but it's beyond the scope of this project.
-2. Within the code, one of the helper functions exists to break down paragraphs that are too long to be used as inputs to the models. Currently, this works by dividing the problematic paragraph by the period closest to the center, creating two new segments. I have not encountered any problems so far, but it's theoretically possible that an absurdly long paragraph could still be too long even after being divided and thus cause an error to occur.
+Though LLMs are improving at understanding context, for the sake of this project they may struggle to identify the subject of the sentiment. In the context of Wikipedia articles, this means that sentiments identified within an article may not necessarily be directed *toward* the subject of the article. For example, negative sentiment identified in the article of a political figure could possibly be generated from quotes by that figure directed against his or her political opponents. There is a field of sentiment analysis known as aspect-based sentiment analysis (ABSA)[^7] that seeks to address this shortcoming, but it's beyond the scope of this project.
 
 [^1]:Stróżyna, Milena, et al. "Sentiment Analysis of Wikipedia Articles About Companies: A Comparison of Different Models." International Conference on Business Information Systems. Cham: Springer Nature Switzerland, 2025.
 [^2]:Devlin, Jacob; Chang, Ming-Wei; Lee, Kenton; Toutanova, Kristina (October 11, 2018). "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding".
