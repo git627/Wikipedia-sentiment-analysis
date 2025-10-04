@@ -67,7 +67,7 @@ def avg_paragraph_percent(models,df_dict):
     
     for i in range(len(models)):
         plot_dict[models[i]]={}
-        for j in range(len(df_dict)):
+        for j in list(df_dict.keys()):
             counts=np.array(df_dict[j][['Number of paragraphs with negative sentiment, {}'.format(models[i]),
                        'Number of paragraphs with neutral sentiment, {}'.format(models[i]),
                        'Number of paragraphs with positive sentiment, {}'.format(models[i])]].sum(axis=0))
@@ -99,7 +99,7 @@ def avg_article_prob(models,df_dict):
     
     for i in range(len(models)):
         plot_dict[models[i]]={}
-        for j in range(len(df_dict)):
+        for j in list(df_dict.keys()):
             prob_avg=np.array(df_dict[j][['Weighted probability of negative sentiment, {}'.format(models[i]),
                        'Weighted probability of neutral sentiment, {}'.format(models[i]),
                        'Weighted probability of positive sentiment, {}'.format(models[i])]].mean(axis=0))
@@ -115,7 +115,7 @@ def percent_most_common(models,df_dict):
     
     for i in range(len(models)):
         plot_dict[models[i]]={}
-        for j in range(len(df_dict)):
+        for j in list(df_dict.keys()):
             counts=np.array([df_dict[j]['Most common sentiment, {}'.format(models[i])].str.count('Negative').sum(),
             df_dict[j]['Most common sentiment, {}'.format(models[i])].str.count('Neutral').sum(),
             df_dict[j]['Most common sentiment, {}'.format(models[i])].str.count('Positive').sum()])
@@ -131,7 +131,7 @@ def percent_highest_weighted_vote(models,df_dict):
     
     for i in range(len(models)):
         plot_dict[models[i]]={}
-        for j in range(len(df_dict)):
+        for j in list(df_dict.keys()):
             counts=np.array([df_dict[j]['Sentiment with highest weighted vote, {}'.format(models[i])].str.count('Negative').sum(),
             df_dict[j]['Sentiment with highest weighted vote, {}'.format(models[i])].str.count('Neutral').sum(),
             df_dict[j]['Sentiment with highest weighted vote, {}'.format(models[i])].str.count('Positive').sum()])
@@ -147,7 +147,7 @@ def percent_highest_weighted_prob(models,df_dict):
     
     for i in range(len(models)):
         plot_dict[models[i]]={}
-        for j in range(len(df_dict)):
+        for j in list(df_dict.keys()):
             counts=np.array([df_dict[j]['Sentiment with highest weighted probability, {}'.format(models[i])].str.count('Negative').sum(),
             df_dict[j]['Sentiment with highest weighted probability, {}'.format(models[i])].str.count('Neutral').sum(),
             df_dict[j]['Sentiment with highest weighted probability, {}'.format(models[i])].str.count('Positive').sum()])
@@ -207,8 +207,8 @@ def plot_individual(models,input_filename,input_path=None,output_filename=
         
 def plot_group(models,input_filename,label_cols,input_path=None,output_filename='figure.png',
                output_path=None,save_fig=True,plot_metric='avg_paragraph_percent',
-               label_values=None):
-    
+               label_values=None,min_group_size=None):
+     
     sentiments=['Negative','Neutral','Positive']
     
     models=list(map(lambda x: model_name(x), models))
@@ -235,6 +235,8 @@ def plot_group(models,input_filename,label_cols,input_path=None,output_filename=
     labels=[]
     df_dict={}
     
+    k=0
+        
     for i in range(len(combos_unique)):
         target_row = combos_unique.iloc[i]
         matches_per_column = combos_orig == target_row
@@ -243,7 +245,15 @@ def plot_group(models,input_filename,label_cols,input_path=None,output_filename=
         df_dict[i]=df.loc[inds_match]
         match_counts.append(len(inds_match))
         labels.append(', '.join(combos_unique.iloc[i].astype(str))+' (n = {})'.format(match_counts[i]))
-     
+        
+        if min_group_size!=None:
+            if len(inds_match)<min_group_size:
+                del df_dict[i]
+                del labels[k]
+                k-=1
+                
+        k+=1
+        
     group_metrics=['avg_paragraph_percent','percent_most_common','percent_highest_weighted_vote',
                    'percent_highest_weighted_prob','avg_article_prob']
     
