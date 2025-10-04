@@ -228,10 +228,7 @@ def plot_group(models,input_filename,label_cols,input_path=None,output_filename=
     
     for i in range(len(label_cols)):
         if label_values[i]!=True:
-            if i==0:
-                combos_filtered=combos_orig[combos_orig[label_cols[i]].isin(label_values[i])]
-            else:
-                combos_filtered=combos_filtered[combos_filtered[label_cols[i]].isin(label_values[i])]
+            combos_filtered=combos_filtered[combos_filtered[label_cols[i]].isin(label_values[i])]
         
     combos_unique=combos_filtered.drop_duplicates()
     match_counts=[]
