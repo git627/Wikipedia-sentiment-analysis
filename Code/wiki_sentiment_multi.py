@@ -116,7 +116,7 @@ def analyze_list(urls,models,output_filename='analysis.csv',output_path=None,sho
         df_final.to_csv(output_filename,index=False)
         
 def analyze_csv(input_filename,models,output_filename='analysis.csv',input_path=None,output_path=None,
-            show_progress=True,url_column='URL'):
+            show_progress=True,url_col='URL'):
         char_limit=2000 #character limit, used to avoid running up against model token limits
         min_para_len=50 #minimum string length for paragraphs. Used to filter out headings
         
@@ -134,7 +134,7 @@ def analyze_csv(input_filename,models,output_filename='analysis.csv',input_path=
             os.chdir(input_path)
             
         df_in=pd.read_csv(input_filename)
-        urls=df_in[url_column]
+        urls=df_in[url_col]
                 
         for i in range(len(urls)):
         
