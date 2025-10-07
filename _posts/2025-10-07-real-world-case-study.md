@@ -204,8 +204,3 @@ plot_corrs(models,input_filename,x_col,plot_metric='article_prob',save_fig=False
 
 
 As we can see, the trends continue to exist even after separating by chamber, although they're quite weak for the Senate outside of the BERT model. In any case, we can safely conclude that the trends of increasing negative sentiment and decreasing neutral sentiment with increasing article length are not caused by Senate articles simply being more negative and less neutral than House articles. Rather, it seems more likely that there is a general trend that as article length increases, negative sentiment increases and neutral sentiment decreases, and the differences in sentiment between House and Senate articles can be explained by this trend.
-
-
-```python
-
-```
