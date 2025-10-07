@@ -35,31 +35,31 @@ plot_group(models,input_filename,label_cols,plot_metric='percent_highest_weighte
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_5_0.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_5_0.png)
     
 
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_5_1.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_5_1.png)
     
 
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_5_2.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_5_2.png)
     
 
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_5_3.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_5_3.png)
     
 
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_5_4.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_5_4.png)
     
 
 
@@ -75,13 +75,13 @@ plot_group(models,input_filename,label_cols,plot_metric='avg_article_prob',save_
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_7_0.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_7_0.png)
     
 
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_7_1.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_7_1.png)
     
 
 
@@ -100,31 +100,31 @@ plot_group(models,input_filename,label_cols,plot_metric='percent_highest_weighte
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_9_0.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_9_0.png)
     
 
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_9_1.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_9_1.png)
     
 
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_9_2.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_9_2.png)
     
 
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_9_3.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_9_3.png)
     
 
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_9_4.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_9_4.png)
     
 
 
@@ -138,7 +138,7 @@ plot_corrs(models,input_filename,x_col,plot_metric='article_prob',save_fig=False
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_11_0.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_11_0.png)
     
 
 
@@ -152,7 +152,7 @@ plot_corrs(models,input_filename,x_col,plot_metric='article_prob',save_fig=False
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_13_0.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_13_0.png)
     
 
 
@@ -187,7 +187,7 @@ plot_corrs(models,input_filename,x_col,plot_metric='article_prob',save_fig=False
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_17_0.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_17_0.png)
     
 
 
@@ -199,7 +199,7 @@ plot_corrs(models,input_filename,x_col,plot_metric='article_prob',save_fig=False
 
 
     
-![png](Example4_real_world_study_files/Example4_real_world_study_18_0.png)
+![png](Example4-real-world-study-files/Example4-real-world-study_18_0.png)
     
 
 
