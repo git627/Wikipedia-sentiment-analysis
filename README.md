@@ -32,13 +32,12 @@ The code works by scraping Wikipedia articles via an API and dividing the articl
 Where <img width="28" height="23" alt="image" src="https://github.com/user-attachments/assets/b0f2e562-f184-45d1-87fe-dc8c64e2efee" /> is the aggregated probability of the j<sup>th</sup> sentiment class, <img width="14" height="17" alt="image" src="https://github.com/user-attachments/assets/f928cbfd-150e-4351-9940-41539e99ad4e" /> is the length of the i<sup>th</sup> text segment in characters, <img width="28" height="16" alt="image" src="https://github.com/user-attachments/assets/8c37f7fc-a872-4cff-8fa5-a35b381d2c3d" /> is the probability of the i<sup>th</sup> text segment belonging to the j<sup>th</sup> sentiment class, and <img width="13" height="15" alt="image" src="https://github.com/user-attachments/assets/a1e4b1e1-e6d5-4917-8717-dbe8a7114cdc" /> is the total number of text segments within the article.
 
 ## Files
-There are currently five scripts used for this project:
+There are currently four scripts used for this project:
 
-1. wiki_sentiment_single.py: this script allows users to generate sentiment predictions for a single Wikipedia article. The user provides a URL as input.
-2. wiki_sentiment_multi.py: this script allows users to generate sentiment predictions for multiple Wikipedia articles. The user provides either a list of URLs or a UTF-8 encoded .csv file as input.
-3. sentiment_models.py: this script contains classes representing the various BERT models used for this work. Users are free to augment it as they see fit. Currently, there is one basic BERT model, one RoBERTa[^3] model, one DistilBERT[^4] model, and the RoBERTuito[^5] model found in the pysentimiento[^6] package.
-4. sentiment_helpers.py: this script contains various helper functions used by the other scripts.
-5. sentiment_plots.py: this script contains functions for plotting sentiment analysis results.
+1. wiki_analysis.py: this script allows users to generate sentiment predictions for a single Wikipedia article (specified by a URL) or multiple articles (specified by a list or UTF-8 encoded .csv file).
+2. sentiment_models.py: this script contains classes representing the various BERT models used for this work. Users are free to augment it as they see fit. Currently, there is one basic BERT model, one RoBERTa[^3] model, one DistilBERT[^4] model, and the RoBERTuito[^5] model found in the pysentimiento[^6] package.
+3. sentiment_helpers.py: this script contains various helper functions used by the other scripts.
+4. sentiment_plots.py: this script contains functions for plotting sentiment analysis results.
 
 Additionally, three Jupyter notebooks (Example1_single_article.ipynb, Example2_multi_article.ipynb, and Example3_plotting.ipynb) are provided as examples for anyone who would like to see how the scripts are used.
 
