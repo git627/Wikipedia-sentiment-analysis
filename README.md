@@ -39,7 +39,7 @@ There are currently four scripts used for this project:
 3. sentiment_helpers.py: this script contains various helper functions used by the other scripts.
 4. sentiment_plots.py: this script contains functions for plotting sentiment analysis results.
 
-Additionally, three Jupyter notebooks (Example1_single_article.ipynb, Example2_multi_article.ipynb, and Example3_plotting.ipynb) are provided as examples for anyone who would like to see how the scripts are used.
+Additionally, four Jupyter notebooks (Example1_single_article.ipynb, Example2_multi_article.ipynb, Example3_plotting.ipynb, and Example4_real_world_study.ipynb) are provided as examples for anyone who would like to see how the scripts are used.
 
 ## Limitations
 1. Though LLMs are improving at understanding context, for the sake of this project they may struggle to identify the subject of the sentiment. In the context of Wikipedia articles, this means that sentiments identified within an article may not necessarily be directed *toward* the subject of the article. For example, negative sentiment identified in the article of a political figure could possibly be generated from quotes by that figure directed against his or her political opponents. There is a field of sentiment analysis known as aspect-based sentiment analysis (ABSA)[^7] that seeks to address this shortcoming, but it's beyond the scope of this project.
