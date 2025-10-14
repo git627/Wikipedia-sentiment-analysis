@@ -10,6 +10,7 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import dcor
 from sentiment_helpers import model_name
 
 def h_stack_bar_chart(fig, ax, column, round_digits, results, labels, category_names):
@@ -344,6 +345,7 @@ def plot_corrs(models,input_filename,x_col,input_path=None,output_filename='figu
     fig, axs = plt.subplots(nrows=len(models),ncols=3,figsize=(18, 4*len(models)))
         
     corrs=np.empty((len(models),3))
+    dcorrs=np.empty((len(models),3))
     
     if min(x_vals)>=0:
         min_x_plot=0.95*min(x_vals)
@@ -378,10 +380,11 @@ def plot_corrs(models,input_filename,x_col,input_path=None,output_filename='figu
                 text_height=0.85
             if len(models)>1:
                 corrs[i,j]=np.corrcoef(x_vals,plot_array_dict[models[i]][:,j])[0,1] #Pearson correlations
+                dcorrs[i,j]=dcor.distance_correlation(x_vals.astype(np.float64),plot_array_dict[models[i]][:,j].astype(np.float64)) #distance correlations
                 axs[i,j].plot(x_vals,plot_array_dict[models[i]][:,j],'b.')
                 axs[i,j].set_xlim(min_x_plot,max_x_plot)
                 axs[i,j].set_ylim(0,y_lim_max)
-                axs[i,j].text(0.45*(max(x_vals)+min(x_vals)),text_height*y_lim_max,'$r^2$ = {}'.format(np.round(corrs[i,j]**2,2)),
+                axs[i,j].text(0.15*(max(x_vals)-min(x_vals))+min(x_vals),text_height*y_lim_max,r'$\rho$ = {}, dCor = {}'.format(np.round(corrs[i,j],2),np.round(dcorrs[i,j],2)),
                               fontsize=18)
                 axs[i,j].tick_params(axis='x', labelsize=14)
                 axs[i,j].tick_params(axis='y', labelsize=14)
@@ -391,10 +394,11 @@ def plot_corrs(models,input_filename,x_col,input_path=None,output_filename='figu
                     axs[i,j].set_ylabel(models[i],fontsize=22)
             else:
                 corrs[i,j]=np.corrcoef(x_vals,plot_array_dict[models[i]][:,j])[0,1] #Pearson correlations
+                dcorrs[i,j]=dcor.distance_correlation(x_vals.astype(np.float64),plot_array_dict[models[i]][:,j].astype(np.float64)) #distance correlations
                 axs[j].plot(x_vals,plot_array_dict[models[i]][:,j],'b.')
                 axs[j].set_xlim(min_x_plot,max_x_plot)
                 axs[j].set_ylim(0,y_lim_max)
-                axs[j].text(0.45*(max(x_vals)+min(x_vals)),text_height*y_lim_max,'$r^2$ = {}'.format(np.round(corrs[i,j]**2,2)),
+                axs[j].text(0.15*(max(x_vals)-min(x_vals))+min(x_vals),text_height*y_lim_max,r'$\rho$ = {}, dCor = {}'.format(np.round(corrs[i,j],2),np.round(dcorrs[i,j],2)),
                               fontsize=18)
                 axs[j].tick_params(axis='x', labelsize=14)
                 axs[j].tick_params(axis='y', labelsize=14)
