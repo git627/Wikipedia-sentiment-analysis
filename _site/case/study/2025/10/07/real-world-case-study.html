@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Real world case study: U.S. Congress | Wikipedia Sentiment Analysis</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Real world case study: U.S. Congress" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Let’s use the tools we have to perform a real world study. We’ll be looking at the Wikipedia articles for all the current members of the United States congress. There are 532 members in total: 432 members of the House and 100 members of the Senate. After assembling a starting table with some basic information, I used analyze_csv to compute sentiment analysis metrics using the BERT, RoBERTa, and RoBERTuito models. Now we’re ready to use plotting utitlies to draw meaningful conclusions about the dataset. Let’s import the functions we’ll be using." />
+<meta property="og:description" content="Let’s use the tools we have to perform a real world study. We’ll be looking at the Wikipedia articles for all the current members of the United States congress. There are 532 members in total: 432 members of the House and 100 members of the Senate. After assembling a starting table with some basic information, I used analyze_csv to compute sentiment analysis metrics using the BERT, RoBERTa, and RoBERTuito models. Now we’re ready to use plotting utitlies to draw meaningful conclusions about the dataset. Let’s import the functions we’ll be using." />
+<link rel="canonical" href="http://localhost:4000/Wikipedia-sentiment-analysis/case/study/2025/10/07/real-world-case-study.html" />
+<meta property="og:url" content="http://localhost:4000/Wikipedia-sentiment-analysis/case/study/2025/10/07/real-world-case-study.html" />
+<meta property="og:site_name" content="Wikipedia Sentiment Analysis" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-07T00:00:00-04:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Real world case study: U.S. Congress" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-07T00:00:00-04:00","datePublished":"2025-10-07T00:00:00-04:00","description":"Let’s use the tools we have to perform a real world study. We’ll be looking at the Wikipedia articles for all the current members of the United States congress. There are 532 members in total: 432 members of the House and 100 members of the Senate. After assembling a starting table with some basic information, I used analyze_csv to compute sentiment analysis metrics using the BERT, RoBERTa, and RoBERTuito models. Now we’re ready to use plotting utitlies to draw meaningful conclusions about the dataset. Let’s import the functions we’ll be using.","headline":"Real world case study: U.S. Congress","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/Wikipedia-sentiment-analysis/case/study/2025/10/07/real-world-case-study.html"},"url":"http://localhost:4000/Wikipedia-sentiment-analysis/case/study/2025/10/07/real-world-case-study.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Wikipedia-sentiment-analysis/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/Wikipedia-sentiment-analysis/feed.xml" title="Wikipedia Sentiment Analysis" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Wikipedia-sentiment-analysis/">Wikipedia Sentiment Analysis</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Wikipedia-sentiment-analysis/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Real world case study: U.S. Congress</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2025-10-07T00:00:00-04:00" itemprop="datePublished">Oct 7, 2025
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Let’s use the tools we have to perform a real world study. We’ll be looking at the Wikipedia articles for all the current members of the United States congress. There are 532 members in total: 432 members of the House and 100 members of the Senate. After assembling a starting table with some basic information, I used analyze_csv to compute sentiment analysis metrics using the BERT, RoBERTa, and RoBERTuito models. Now we’re ready to use plotting utitlies to draw meaningful conclusions about the dataset. Let’s import the functions we’ll be using.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sentiment_plots</span> <span class="kn">import</span> <span class="n">plot_group</span><span class="p">,</span> <span class="n">plot_corrs</span>
+</code></pre></div></div>
+
+<p>Now let’s perform some group plots. We’ll look at all the models we used, and let’s also separate the data by party. I’m setting min_group_size to 3 because there are 2 Independent members in the Senate: we’re just interested in the two major parties for this analysis.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">models</span><span class="o">=</span><span class="p">[</span><span class="s">'bert'</span><span class="p">,</span><span class="s">'roberta'</span><span class="p">,</span><span class="s">'robertuito'</span><span class="p">]</span>
+<span class="n">input_filename</span><span class="o">=</span><span class="s">'congress_analysis.csv'</span>
+<span class="n">label_cols</span><span class="o">=</span><span class="p">[</span><span class="s">'Party'</span><span class="p">]</span>
+<span class="n">min_group_size</span><span class="o">=</span><span class="mi">3</span>
+</code></pre></div></div>
+
+<p>Now let’s look at all 5 group plotting metrics and see if we can identify any trends.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot_group</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">label_cols</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'avg_paragraph_percent'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">min_group_size</span><span class="o">=</span><span class="n">min_group_size</span><span class="p">)</span>
+<span class="n">plot_group</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">label_cols</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'avg_article_prob'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">min_group_size</span><span class="o">=</span><span class="n">min_group_size</span><span class="p">)</span>
+<span class="n">plot_group</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">label_cols</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'percent_most_common'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">min_group_size</span><span class="o">=</span><span class="n">min_group_size</span><span class="p">)</span>
+<span class="n">plot_group</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">label_cols</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'percent_highest_weighted_vote'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">min_group_size</span><span class="o">=</span><span class="n">min_group_size</span><span class="p">)</span>
+<span class="n">plot_group</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">label_cols</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'percent_highest_weighted_prob'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">min_group_size</span><span class="o">=</span><span class="n">min_group_size</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_5_0.png" alt="png" /></p>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_5_1.png" alt="png" /></p>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_5_2.png" alt="png" /></p>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_5_3.png" alt="png" /></p>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_5_4.png" alt="png" /></p>
+
+<p>Interesting! There are several findings here. The first is that the vast majority of the Wikipedia articles were classified as neutral by the three methods that give a single label for each article (‘percent_most_common’,’percent_highest_weighted_vote’, and ‘percent_highest_weighted_prob’). This shouldn’t be too surprising since Wikipedia is supposed to adopt a neutral tone in its articles. However, the BERT model did find significantly more negative articles amongst Republicans than Democrats. Furthermore, all models identified higher negative sentiment and lower positive sentiment for Republicans compared to Democrats when looking at the averages of methods that give three values for each article (‘avg_paragraph_percent’ and ‘avg_article_prob’). Maybe you’re thinking that this is because there is a small number of very negative Republican articles that are skewing the sample, and that if they were removed the sentiment would look pretty similar for both parties. Let’s test that idea by considering only the articles that the BERT model classified as neutral using the ‘percent_highest_weighted_vote’ criterion.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">label_cols</span><span class="o">=</span><span class="p">[</span><span class="s">'Party'</span><span class="p">,</span><span class="s">'Sentiment with highest weighted vote, BERT'</span><span class="p">]</span>
+<span class="n">label_values</span><span class="o">=</span><span class="p">[</span><span class="bp">True</span><span class="p">,[</span><span class="s">'Neutral'</span><span class="p">]]</span>
+<span class="n">plot_group</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">label_cols</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'avg_paragraph_percent'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">label_values</span><span class="o">=</span><span class="n">label_values</span><span class="p">,</span><span class="n">min_group_size</span><span class="o">=</span><span class="n">min_group_size</span><span class="p">)</span>
+<span class="n">plot_group</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">label_cols</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'avg_article_prob'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">label_values</span><span class="o">=</span><span class="n">label_values</span><span class="p">,</span><span class="n">min_group_size</span><span class="o">=</span><span class="n">min_group_size</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_7_0.png" alt="png" /></p>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_7_1.png" alt="png" /></p>
+
+<p>From this result, we can see that the trend remains even after removing the negative articles. This suggests even for articles that are classified as neutral overall, articles about Republicans tend to contain more negative sentiment and less positive sentiment than those about their Democratic counterparts. Next, let’s see if there are any differences in sentiment between the House and the Senate. We’ll look at all 5 group metrics like we did before.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">label_cols</span><span class="o">=</span><span class="p">[</span><span class="s">'Chamber'</span><span class="p">]</span>
+
+<span class="n">plot_group</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">label_cols</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'avg_paragraph_percent'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">min_group_size</span><span class="o">=</span><span class="n">min_group_size</span><span class="p">)</span>
+<span class="n">plot_group</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">label_cols</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'avg_article_prob'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">min_group_size</span><span class="o">=</span><span class="n">min_group_size</span><span class="p">)</span>
+<span class="n">plot_group</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">label_cols</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'percent_most_common'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">min_group_size</span><span class="o">=</span><span class="n">min_group_size</span><span class="p">)</span>
+<span class="n">plot_group</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">label_cols</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'percent_highest_weighted_vote'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">min_group_size</span><span class="o">=</span><span class="n">min_group_size</span><span class="p">)</span>
+<span class="n">plot_group</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">label_cols</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'percent_highest_weighted_prob'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">min_group_size</span><span class="o">=</span><span class="n">min_group_size</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_9_0.png" alt="png" /></p>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_9_1.png" alt="png" /></p>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_9_2.png" alt="png" /></p>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_9_3.png" alt="png" /></p>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_9_4.png" alt="png" /></p>
+
+<p>Interestingly, most of the group metrics identify more negative sentiment amongst articles about Senators compared to those about House members. Let’s see if we can gain any more insight into this finding. One could hypothesize that the longer someone is in Congress, the more negative sentiment about them will be. Let’s plot the correlations between article sentiment probability and tenure length in years.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x_col</span><span class="o">=</span><span class="s">'Tenure (years)'</span>
+<span class="n">plot_corrs</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">x_col</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'article_prob'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_11_0.png" alt="png" /></p>
+
+<p>This hypothesis seems to be falsified: there is no observable relationship between article sentiment probability and a Congress member’s length of tenure. Let’s do the same analysis again, but this time we’ll choose article length as our x variable instead of tenure length.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x_col</span><span class="o">=</span><span class="s">'Article length (characters)'</span>
+<span class="n">plot_corrs</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">x_col</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'article_prob'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_13_0.png" alt="png" /></p>
+
+<p>These correlations are not incredibly strong but there’s definitely something here! It seems that as the length of the article increases, negative sentiment tends to increase while neutral sentiment tends to decrease. Positive sentiment seems to be completely unaffected. One explanation for this could be that for this dataset, all articles contain biographical sections (Early life, Education, etc.) that are highly neutral in tone. As article length increases, there will likely be more discussions of policy positions or controversies that contain negative sentiment. Going back to our discussion of sentiment for House vs. Senate members, let’s look at the average article length for both categories.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">input_filename</span><span class="p">)</span>
+<span class="n">df</span><span class="p">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'Chamber'</span><span class="p">)[</span><span class="s">'Article length (characters)'</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chamber
+House     11004.451389
+Senate    27861.890000
+Name: Article length (characters), dtype: float64
+</code></pre></div></div>
+
+<p>As we can see, the average Wikipedia article for a Senator is well over twice as long as the average Wikipedia article for a House member. Thus, it seems reasonable to conclude that Senators attract more negative sentiment because they’re more well-known than House members, and their longer articles will simply reflect the criticism that comes with greater notoriety. But wait, you ask: what if the reason that longer articles are more negative is <em>because</em> they’re about Senators, rather than articles about Senators being more negative because they’re longer? To address this concern, we should look at the trends within both the House and the Senate.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">filter_cols</span><span class="o">=</span><span class="p">[</span><span class="s">'Chamber'</span><span class="p">]</span>
+<span class="n">filter_values</span><span class="o">=</span><span class="p">[[</span><span class="s">'House'</span><span class="p">]]</span>
+<span class="n">plot_corrs</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">x_col</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'article_prob'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">filter_cols</span><span class="o">=</span><span class="n">filter_cols</span><span class="p">,</span><span class="n">filter_values</span><span class="o">=</span><span class="n">filter_values</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_17_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">filter_values</span><span class="o">=</span><span class="p">[[</span><span class="s">'Senate'</span><span class="p">]]</span>
+<span class="n">plot_corrs</span><span class="p">(</span><span class="n">models</span><span class="p">,</span><span class="n">input_filename</span><span class="p">,</span><span class="n">x_col</span><span class="p">,</span><span class="n">plot_metric</span><span class="o">=</span><span class="s">'article_prob'</span><span class="p">,</span><span class="n">save_fig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">filter_cols</span><span class="o">=</span><span class="n">filter_cols</span><span class="p">,</span><span class="n">filter_values</span><span class="o">=</span><span class="n">filter_values</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="Example4_real_world_study_files/Example4_real_world_study_18_0.png" alt="png" /></p>
+
+<p>As we can see, the trends continue to exist even after separating by chamber, although they’re quite weak for the Senate outside of the BERT model. In any case, we can safely conclude that the trends of increasing negative sentiment and decreasing neutral sentiment with increasing article length are not caused by Senate articles simply being more negative and less neutral than House articles. Rather, it seems more likely that there is a general trend that as article length increases, negative sentiment increases and neutral sentiment decreases, and the differences in sentiment between House and Senate articles can be explained by this trend.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div>
+
+  </div><a class="u-url" href="/Wikipedia-sentiment-analysis/case/study/2025/10/07/real-world-case-study.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Wikipedia-sentiment-analysis/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Wikipedia Sentiment Analysis</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Wikipedia Sentiment Analysis</li><li><a class="u-email" href="mailto:marsh4733@gmail.com">marsh4733@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/jekyll"><svg class="svg-icon"><use xlink:href="/Wikipedia-sentiment-analysis/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jekyll</span></a></li><li><a href="https://www.twitter.com/jekyllrb"><svg class="svg-icon"><use xlink:href="/Wikipedia-sentiment-analysis/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">jekyllrb</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site presents discussion and use cases of the Wikipedia-sentiment-analysis repository found at https://github.com/git627/Wikipedia-sentiment-analysis.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

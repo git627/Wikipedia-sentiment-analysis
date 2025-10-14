@@ -1,0 +1,7 @@
+matplotlib==3.10.6
+numpy==2.3.3
+pandas==2.3.3
+pysentimiento==0.7.3
+torch==2.8.0
+transformers==4.56.2
+Wikipedia_API==0.8.1
