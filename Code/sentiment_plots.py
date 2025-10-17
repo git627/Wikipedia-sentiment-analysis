@@ -209,14 +209,17 @@ def plot_individual(models,input_filename,input_path=None,output_filename=
     if save_fig==True:
         plt.savefig(output_filename, bbox_inches = 'tight')
         
-def plot_group(models,input_filename,label_cols,input_path=None,output_filename='figure.png',
+def plot_group(models,input_filename,group_cols,input_path=None,output_filename='figure.png',
                output_path=None,save_fig=True,plot_metric='avg_paragraph_percent',
-               label_values=None,min_group_size=None):
+               group_values=None,min_group_size=None):
      
     sentiments=['Negative','Neutral','Positive']
     
     if type(models)==str:
         models=[models]
+        
+    if type(group_values)==bool:
+        group_values=[group_values]
     
     models=list(map(lambda x: model_name(x), models))
     
@@ -225,17 +228,17 @@ def plot_group(models,input_filename,label_cols,input_path=None,output_filename=
     
     df=pd.read_csv(input_filename)
     
-    combos_orig=df[label_cols]
+    combos_orig=df[group_cols]
     
     combos_filtered=combos_orig
     
     #If filter values unspecified, allow all values
-    if label_values==None:
-        label_values=[True]*len(label_cols)
+    if group_values==None:
+        group_values=[True]*len(group_cols)
     
-    for i in range(len(label_cols)):
-        if label_values[i]!=True:
-            combos_filtered=combos_filtered[combos_filtered[label_cols[i]].isin(label_values[i])]
+    for i in range(len(group_cols)):
+        if group_values[i]!=True:
+            combos_filtered=combos_filtered[combos_filtered[group_cols[i]].isin(group_values[i])]
         
     combos_unique=combos_filtered.drop_duplicates()
     match_counts=[]
